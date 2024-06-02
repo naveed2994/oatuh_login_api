@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Test_Api.Helper;
+using Test_Api.Helper.Enums;
 
 namespace Test_Api.Controllers
 {
@@ -13,25 +15,27 @@ namespace Test_Api.Controllers
     [Route("[controller]")]
     public class GameController : ControllerBase
     {
-        [HttpPost]
-        [Authorize(Policy = "admin")]
-        public async Task<IActionResult> GameBoard()
+        [HttpPost("Admin")]
+        [AuthorizeRoles(RoleType.Admin)]
+
+        public async Task<IActionResult> AdminGameBoard()
         {
-            return ("admin permission")
+            return Ok("admin permission");
         }
 
         [HttpPost]
-        [Authorize(Policy = "player")]
-        public async Task<IActionResult> GameBoard()
+        [AuthorizeRoles(RoleType.Player)]
+        public async Task<IActionResult> PlayerGameBoard()
         {
-            return ("plyare permission")
+            return Ok("plyare permission");
         }
 
-        [HttpPost]
+        [HttpPost("guest")]
         [AllowAnonymous]
         public async Task<IActionResult> GameBoard()
         {
-            return ("any one can access");
+            return Ok("any one can access");
         }
 
     }
+}

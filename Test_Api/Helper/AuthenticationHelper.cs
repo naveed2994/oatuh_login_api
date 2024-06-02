@@ -13,7 +13,7 @@ namespace Test_Api.Helper
     public class AuthorizeRoles : TypeFilterAttribute
     {
 
-        
+
 
         public AuthorizeRoles(params RoleType[] roles)
             : base(typeof(AuthorizeActionFilter))
@@ -22,14 +22,14 @@ namespace Test_Api.Helper
         }
 
     }
- 
+
     public class AuthorizeActionFilter : IAuthorizationFilter
     {
         private readonly IHttpContextAccessor httpContextAccessor;
 
 
         private readonly List<RoleType> Roles;
-        public AuthorizeActionFilter(RoleType[] roles,IHttpContextAccessor? httpContextAccessor)
+        public AuthorizeActionFilter(RoleType[] roles, IHttpContextAccessor? httpContextAccessor)
         {
             Roles = roles.ToList();
             this.httpContextAccessor = httpContextAccessor;
@@ -41,7 +41,7 @@ namespace Test_Api.Helper
             if (!string.IsNullOrEmpty(token))
             {
 
-                var role = context.HttpContext.User.IsInRole("0") ? "0" : "1";
+                var role = context.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.Role).First().Value;
                 var roles = new List<string>();
 
                 RoleType type = (RoleType)Enum.Parse(typeof(RoleType), role);
@@ -61,7 +61,7 @@ namespace Test_Api.Helper
 
             }
         }
-        
+
     }
 
 }

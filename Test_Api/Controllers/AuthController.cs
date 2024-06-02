@@ -36,9 +36,9 @@ namespace OAuthLoginApi.Controllers
             }
             else if (model.UserName == "player" && model.Password == "player")
             {
-                claims.Add(new Claim(ClaimTypes.Role,
-                  "1"));
                 claims.Add(new Claim("roles",
+                  "1"));
+                claims.Add(new Claim("name",
                    "player"));
             }
             else
